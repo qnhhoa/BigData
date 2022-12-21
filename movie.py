@@ -33,6 +33,7 @@ def getMovieName(movieNames,movieId):
     return result[0]
 
 spark = SparkSession.builder.appName("MovieSimilarities").master("local[*]").getOrCreate()
+spark.sparkContext.setLogLevel('WARN')
 
 movieNamesSchema = StructType([\
                               StructField("movieID", IntegerType(),True), \
@@ -49,12 +50,12 @@ movieNames = spark.read \
     .option("sep","|") \
     .option("charset","ISO-8859-1") \
     .schema(movieNamesSchema) \
-    .csv("/home/minhthu/Downloads/ml-100k/u.item")
+    .csv("/content/drive/MyDrive/BigData/ml-100k/ml-100k/u.item")
 
 movies = spark.read \
     .option("sep","\t") \
     .schema(moviesSchema) \
-    .csv("/home/minhthu/Downloads/ml-100k/u.data")
+    .csv("/content/drive/MyDrive/BigData/ml-100k/ml-100k/u.data")
 
 ratings = movies.select("userId","movieId","rating")
 
